@@ -35,6 +35,13 @@ impl Paragraph {
                     ));
                     current_slice_start = next_char_index;
                 }
+                '\n' => {
+                    // '\n': newline (replace with space)
+                    #[allow(clippy::indexing_slicing)]
+                    let slice = text[current_slice_start..char_index].to_owned() + " ";
+                    render_slices.push((slice, current_format));
+                    current_slice_start = char_index + 1;
+                }
                 '*' => {
                     // bold or italic
                     // both cases require the current slice to be pushed
@@ -123,7 +130,19 @@ mod tests {
         fn backslash_at_the_end_of_a_paragraph() {
             let paragraph = Paragraph::new(r"lorem ipsum\");
             assert_eq!(
-                vec![("lorem ipsum".to_owned(), Format::new()),],
+                vec![("lorem ipsum".to_owned(), Format::new())],
+                paragraph.render_slices
+            );
+        }
+
+        #[test]
+        fn newline_becomes_space() {
+            let paragraph = Paragraph::new("lorem\nipsum");
+            assert_eq!(
+                vec![
+                    ("lorem ".to_owned(), Format::new()),
+                    ("ipsum".to_owned(), Format::new())
+                ],
                 paragraph.render_slices
             );
         }

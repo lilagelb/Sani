@@ -6,7 +6,7 @@ integrating `less`-like operation at some point.
 ## Roadmap
 
 - [x] Paragraphs (italics, bold, strikethroughs)
-- [ ] Paragraph line breaks
+- [x] Paragraph line breaks
 - [ ] Config file to customise formatting
 - [ ] Headings
 - [ ] Numbered and unnumbered lists
